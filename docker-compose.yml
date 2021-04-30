@@ -1,0 +1,12 @@
+# Example snippet for docker-compose.yml. Can be combined with pigallery2
+version: "3"
+
+tesla-dashcam-manager:
+    image: simonkagstrom/tesla_dashcam_manager
+    restart: always
+    environment:
+        - TZ=Europe/Stockholm
+    volumes:
+        - "/mnt/staging:/app/staging"
+        - "/mnt/raw-storage:/app/raw-storage"
+        - "/mnt/photos/TeslaCam:/app/destination-path"
