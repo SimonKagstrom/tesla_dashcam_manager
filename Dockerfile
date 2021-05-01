@@ -17,8 +17,6 @@ ENV FFMPEG_CORE="bash \
                  lame \
                  fdk-aac \
                  freetype \
-                 libcrypto1.0 \
-                 libssl1.0 \
                  libavc1394 \
                  yasm"
 
@@ -46,7 +44,7 @@ ENV BUILD_DEPS="fdk-aac-dev \
 ENV FFMPEG_VERSION=4.4
 
 RUN apk --no-cache upgrade
-RUN apk add --no-cache python3 jpeg-dev zlib-dev build-base python3-dev py3-pip ttf-freefont
+RUN apk add --no-cache python3 jpeg-dev zlib-dev build-base python3-dev py3-pip ttf-freefont ${FFMPEG_CORE}
 RUN apk add --no-cache --virtual .build-deps ${BUILD_DEPS}
 
 RUN export SRC=/usr \
@@ -91,8 +89,6 @@ RUN export SRC=/usr \
 	rm -rf ${DIR} && \
 	apk del .build-deps && \
     rm -rf /var/cache/apk/*
-
-RUN apk add --no-cache ${FFMPEG_CORE}}
 
 ENV LIBRARY_PATH=/lib:/usr/lib
 RUN python3 -m pip install --upgrade pip
