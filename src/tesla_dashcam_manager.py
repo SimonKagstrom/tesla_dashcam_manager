@@ -108,7 +108,7 @@ if __name__ == "__main__":
     raw_storage_path = verify_create_path(sys.argv[2])
     destination_path = verify_create_path(sys.argv[3])
 
-    tesla_dashcam = "tesla_dashcam.py"
+    tesla_dashcam = "/usr/bin/tesla_dashcam.py"
     if len(sys.argv) >= 5:
         tesla_dashcam = sys.argv[4]
 
