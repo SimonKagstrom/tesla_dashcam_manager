@@ -86,7 +86,7 @@ class TeslaDashcamManager(object):
 
 
 def usage():
-    print(f"Usage: {__file__} <staging-path> <raw-storage-path> <destination-path> [tesla_dashcam.py-path]")
+    print(f"Usage: {__file__} <staging-path> <raw-storage-path> <destination-path> [tesla_dashcam.py-path] [retain-days-for-raw-storage]")
     sys.exit(1)
 
 def verify_create_path(path):
@@ -112,8 +112,11 @@ if __name__ == "__main__":
     destination_path = verify_create_path(sys.argv[3])
 
     tesla_dashcam = "/usr/bin/tesla_dashcam.py"
+    raw_storage_retain_days = 0
     if len(sys.argv) >= 5:
         tesla_dashcam = sys.argv[4]
+    if len(sys.argv) >= 6:
+        raw_storage_retain_days = int(sys.argv[5])
 
-    manager = TeslaDashcamManager(staging_path, raw_storage_path, destination_path, tesla_dashcam)
+    manager = TeslaDashcamManager(staging_path, raw_storage_path, destination_path, tesla_dashcam, raw_storage_retain_days)
     manager.run()
