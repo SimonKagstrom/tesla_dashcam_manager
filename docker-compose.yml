@@ -6,6 +6,8 @@ tesla-dashcam-manager:
     restart: always
     environment:
         - TZ=Europe/Stockholm
+    devices:
+        - "/dev/vchiq:/dev/vchiq"
     volumes:
         - "/mnt/staging:/app/staging"
         - "/mnt/raw-storage:/app/raw-storage"
