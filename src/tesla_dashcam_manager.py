@@ -20,7 +20,10 @@ class TeslaDashcamManager(object):
         self.tesla_dashcam_arguments = ["--title-screen-map", "--no-check_for_update"]
 
     def move_to_raw_storage(self, dir):
-        print(f"shutil.move({dir}, {self.raw_storage_path})")
+        try:
+            shutil.move(dir, self.raw_storage_path)
+        except:
+            print(f"Can't move {dir} to {self.raw_storage_path}")
 
     def get_clips_from_staging(self):
         out = []
