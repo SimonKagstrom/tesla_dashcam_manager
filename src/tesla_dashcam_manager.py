@@ -8,7 +8,8 @@ import time
 
 class TeslaDashcamManager(object):
 
-    def __init__(self, staging_path, raw_storage_path, destination_path, tesla_dashcam, raw_storage_retain_days = 365):
+    def __init__(self, staging_path, raw_storage_path, destination_path, tesla_dashcam,
+        tesla_dashcam_arguments, raw_storage_retain_days):
         self.staging_path = staging_path
         self.processing_path = os.path.join(staging_path, "processing")
         self.raw_storage_path = raw_storage_path
@@ -18,7 +19,7 @@ class TeslaDashcamManager(object):
 
         self.monitor_path = self.staging_path + "/ARCHIVE_UPLOADED"
 
-        self.tesla_dashcam_arguments = ["--title-screen-map", "--no-check_for_update"]
+        self.tesla_dashcam_arguments = tesla_dashcam_arguments + ["--title-screen-map", "--no-check_for_update"]
 
     def move_to_raw_storage(self, dir):
         try:
@@ -70,6 +71,7 @@ class TeslaDashcamManager(object):
             age_days = (now - stat.st_ctime) / (60*60*24)
             if age_days >= self.raw_storage_retain_days:
                 print(f"{cur} is {age_days} old, would rmtree")
+#                shutil.rmtree(cur)
 
 
     def process_clip(self, clip_path):
@@ -128,10 +130,14 @@ if __name__ == "__main__":
 
     tesla_dashcam = "/usr/bin/tesla_dashcam.py"
     raw_storage_retain_days = 0
+    tesla_dashcam_arguments = []
     if len(sys.argv) >= 5:
         tesla_dashcam = sys.argv[4]
     if len(sys.argv) >= 6:
+        tesla_dashcam_arguments = sys.argv[5].split()
+    if len(sys.argv) >= 7:
         raw_storage_retain_days = int(sys.argv[5])
 
-    manager = TeslaDashcamManager(staging_path, raw_storage_path, destination_path, tesla_dashcam, raw_storage_retain_days)
+    manager = TeslaDashcamManager(staging_path, raw_storage_path, destination_path,
+        tesla_dashcam, tesla_dashcam_arguments, raw_storage_retain_days)
     manager.run()
