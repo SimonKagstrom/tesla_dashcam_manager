@@ -33,23 +33,23 @@ class TeslaDashcamManager(object):
             os.unlink(self.monitor_path)
 
             for dirpath, dirnames, _ in os.walk(self.staging_path):
-                if os.path(dirpath) == self.processing_path:
-                    continue
-
                 for dir in dirnames:
                     path = os.path.join(dirpath, dir)
+                    if path == self.processing_path:
+                        continue
+
                     files = os.listdir(path)
                     if "event.json" in files:
                         incoming.append(path)
 
             processing_paths = []
-            for path in out:
+            for path in incoming:
                 dst = os.path.join(self.processing_path, os.path.basename(path))
                 try:
-                    shutil.move(path, self.processing_path)
-                    incoming.append(dst)
+                    shutil.move(path, dst)
+                    processing_paths.append(dst)
                 except:
-                    print(f"Can't move {path} to {self.self.processing_path}, skipping")
+                    print(f"Can't move {path} to {dst}, skipping")
 
             return processing_paths
 
