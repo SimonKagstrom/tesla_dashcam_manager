@@ -6,8 +6,8 @@ tesla-dashcam-manager:
     restart: always
     environment:
         - TZ=Europe/Stockholm
-        - TESLA_DASHCAM_ARGUMENTS="--gpu --gpu_type=rpi"
-        - RETAIN_DAYS="365"
+        - TESLA_DASHCAM_ARGUMENTS=--gpu --gpu_type=rpi
+        - RETAIN_DAYS=365
     devices:
         - "/dev/vchiq:/dev/vchiq"
     volumes:
