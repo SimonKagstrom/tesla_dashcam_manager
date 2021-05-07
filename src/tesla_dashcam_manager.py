@@ -136,7 +136,7 @@ if __name__ == "__main__":
     if len(sys.argv) >= 6:
         tesla_dashcam_arguments = sys.argv[5].split()
     if len(sys.argv) >= 7:
-        raw_storage_retain_days = int(sys.argv[5])
+        raw_storage_retain_days = int(sys.argv[6])
 
     manager = TeslaDashcamManager(staging_path, raw_storage_path, destination_path,
         tesla_dashcam, tesla_dashcam_arguments, raw_storage_retain_days)
