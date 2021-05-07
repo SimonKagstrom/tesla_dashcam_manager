@@ -107,4 +107,4 @@ COPY src/tesla_dashcam_manager.py /usr/bin/
 COPY tesla_dashcam/tesla_dashcam/tesla_dashcam.py /usr/bin/
 RUN chmod +x /usr/bin/tesla*.py
 
-CMD python3 /usr/bin/tesla_dashcam_manager.py /app/staging /app/raw-storage /app/destination-path ${TESLA_DASHCAM_ARGUMENTS} ${RETAIN_DAYS}
+CMD python3 /usr/bin/tesla_dashcam_manager.py /app/staging /app/raw-storage /app/destination-path /usr/bin/tesla_dashcam.py "${TESLA_DASHCAM_ARGUMENTS}" ${RETAIN_DAYS}
