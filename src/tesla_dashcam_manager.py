@@ -19,7 +19,7 @@ class TeslaDashcamManager(object):
 
         self.monitor_path = self.staging_path + "/ARCHIVE_UPLOADED"
 
-        self.tesla_dashcam_arguments = tesla_dashcam_arguments + ["--title-screen-map", "--no-check_for_update"]
+        self.tesla_dashcam_arguments = tesla_dashcam_arguments + ["--no-check_for_update"]
 
     def move_to_raw_storage(self, dir):
         try:
