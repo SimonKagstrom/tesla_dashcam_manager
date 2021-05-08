@@ -6,7 +6,7 @@ version: "3"
     restart: always
     environment:
         - TZ=Europe/Stockholm
-        - TESLA_DASHCAM_ARGUMENTS=--title_screen_map --gpu --gpu_type=rpi
+        - TESLA_DASHCAM_ARGUMENTS=--title_screen_map --gpu --gpu_type=rpi --text_overlay_fmt "{event_timestamp} {event_city}"
         - RETAIN_DAYS=365
     devices:
         - "/dev/vchiq:/dev/vchiq"
