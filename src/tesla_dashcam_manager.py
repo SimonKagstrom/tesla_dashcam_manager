@@ -27,7 +27,7 @@ class TeslaDashcamManager(object):
         except:
             print(f"Can't move {dir} to {self.raw_storage_path}")
 
-    def get_clips_from_staging(self):
+    def move_clips_from_staging_to_processing(self):
         incoming = []
         if os.path.exists(self.monitor_path):
             os.unlink(self.monitor_path)
@@ -42,18 +42,28 @@ class TeslaDashcamManager(object):
                     if "event.json" in files:
                         incoming.append(path)
 
-            processing_paths = []
             for path in incoming:
                 dst = os.path.join(self.processing_path, os.path.basename(path))
                 try:
                     shutil.move(path, dst)
-                    processing_paths.append(dst)
                 except:
                     print(f"Can't move {path} to {dst}, skipping")
 
-            return processing_paths
 
-        return []
+    def get_clips_from_staging(self):
+        incoming = []
+
+        self.move_clips_from_staging_to_processing()
+
+        for dirpath, dirnames, _ in os.walk(self.processing_path):
+            for dir in dirnames:
+                path = os.path.join(dirpath, dir)
+
+                files = os.listdir(path)
+                if "event.json" in files:
+                    incoming.append(path)
+
+        return incoming
 
     def prune_old_clips(self):
         entries = os.listdir(self.raw_storage_path)
