@@ -25,7 +25,8 @@ class TeslaDashcamManager(object):
         try:
             shutil.move(dir, self.raw_storage_path)
         except:
-            print(f"Can't move {dir} to {self.raw_storage_path}")
+            print(f"Can't move {dir} to {self.raw_storage_path}, removing instead")
+            shutil.rmtree(dir)
 
     def move_clips_from_staging_to_processing(self):
         incoming = []
