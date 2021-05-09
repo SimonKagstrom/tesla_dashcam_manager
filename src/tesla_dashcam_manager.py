@@ -129,6 +129,27 @@ def verify_create_path(path):
 
     return path
 
+def split_args(s):
+    '''Split a string into a list, but keep quoted parts as a single string'''
+    out = []
+
+    # Probably a stupid way of doing this, and maybe it already exists?
+    cur = ""
+    quote = False
+    for part in s.split():
+        cur = cur + part + " "
+        if part.startswith('"'):
+            quote = True
+            continue
+        elif part.endswith('"'):
+            quote = False
+
+        if not quote:
+            out.append(cur[:-1])
+            cur = ""
+
+    return out
+
 if __name__ == "__main__":
     if len(sys.argv) < 4:
         usage()
@@ -145,7 +166,7 @@ if __name__ == "__main__":
     if len(sys.argv) >= 5:
         tesla_dashcam = sys.argv[4]
     if len(sys.argv) >= 6:
-        tesla_dashcam_arguments = sys.argv[5].split()
+        tesla_dashcam_arguments = split_args(sys.argv[5])
     if len(sys.argv) >= 7:
         raw_storage_retain_days = int(sys.argv[6])
 
