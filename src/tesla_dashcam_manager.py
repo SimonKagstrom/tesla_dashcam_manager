@@ -127,7 +127,7 @@ class TeslaDashcamManager(object):
 
 
 def usage():
-    print(f"Usage: {__file__} <staging-path> <raw-storage-path> <destination-path> [tesla_dashcam.py-path] [retain-days-for-raw-storage]")
+    print(f"Usage: {__file__} <staging-path> <raw-storage-path> <destination-path> [tesla_dashcam.py-path] [tesla_dashcam-arguments] [retain-days-for-raw-storage]")
     sys.exit(1)
 
 def verify_create_path(path):
