@@ -79,11 +79,13 @@ class TeslaDashcamManager(object):
             cur = os.path.join(self.raw_storage_path, dir)
             if not os.path.isdir(cur) or cur.startswith("."):
                 continue
-            stat = os.stat(cur)
-            age_days = (now - stat.st_ctime) / (60*60*24)
+            age_days = int((now - os.path.getmtime(cur)) / (60*60*24))
             if age_days >= self.raw_storage_retain_days:
-                print(f"{cur} is {age_days} old, would rmtree")
-#                shutil.rmtree(cur)
+                print(f"{cur} is {age_days} days old, removing")
+                try:
+                    shutil.rmtree(cur)
+                except:
+                    print(f"Can't remove {cur}")
 
 
     def process_clip(self, clip_path):
@@ -114,8 +116,8 @@ class TeslaDashcamManager(object):
         if len(clips) != 0:
             print(f"Processing {len(clips)} clips")
         for clip in clips:
-            self.process_clip(clip)
             self.prune_old_clips()
+            self.process_clip(clip)
             self.move_to_raw_storage(clip)
 
         self.move_from_work_to_destination()
