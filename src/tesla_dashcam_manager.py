@@ -12,6 +12,7 @@ class TeslaDashcamManager(object):
         tesla_dashcam_arguments, raw_storage_retain_days):
         self.staging_path = staging_path
         self.processing_path = os.path.join(staging_path, "processing")
+        self.work_path = os.path.join(staging_path, "work")
         self.raw_storage_path = raw_storage_path
         self.destination_path = destination_path
         self.tesla_dashcam = tesla_dashcam
@@ -87,13 +88,26 @@ class TeslaDashcamManager(object):
 
     def process_clip(self, clip_path):
         args = ["python3", self.tesla_dashcam] + self.tesla_dashcam_arguments + \
-            ["--output", self.destination_path, clip_path]
+            ["--output", self.work_path, clip_path]
         try:
             subprocess.run(args, capture_output=True, check=True)
         except subprocess.CalledProcessError as exc:
             print(f"Error when running tesla_dashcam: RC: {exc.returncode}\n"
                 f"Command: {exc.cmd}\n"
                 f"Error: {exc.stderr}\n")
+
+    def move_from_work_to_destination(self):
+        'Move clips from staging/work to the destination path'
+        entries = os.listdir(self.work_path)
+        for entry in entries:
+            if not entry.endswith(".mp4"):
+                continue
+
+            p = os.path.join(self.work_path, entry)
+            try:
+                shutil.move(p, self.destination_path)
+            except:
+                print(f"Can't move {p} to {self.destination_path}")
 
     def get_and_process(self):
         clips = self.get_clips_from_staging()
@@ -104,6 +118,7 @@ class TeslaDashcamManager(object):
             self.prune_old_clips()
             self.move_to_raw_storage(clip)
 
+        self.move_from_work_to_destination()
 
     def run(self):
         while True:
@@ -159,6 +174,7 @@ if __name__ == "__main__":
     destination_path = verify_create_path(sys.argv[3])
 
     verify_create_path(os.path.join(staging_path, "processing"))
+    verify_create_path(os.path.join(staging_path, "work"))
 
     tesla_dashcam = "/usr/bin/tesla_dashcam.py"
     raw_storage_retain_days = 0
