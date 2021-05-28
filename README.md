@@ -45,3 +45,5 @@ docker-compose up -d
 
 and you should be up and running.
 # Teslausb setup
+
+ ![PiGallery2 screenshot](pigallery.png)
