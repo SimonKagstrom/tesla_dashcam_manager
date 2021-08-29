@@ -1,4 +1,4 @@
 [submodule "tesla_dashcam"]
 	path = tesla_dashcam
-	url = https://github.com/SimonKagstrom/tesla_dashcam.git
-	branch = simon-all
+	url = https://github.com/ehendrix23/tesla_dashcam.git
+	branch = master
