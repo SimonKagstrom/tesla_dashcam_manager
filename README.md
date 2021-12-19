@@ -9,7 +9,7 @@ be automated.
 
 # What is the Tesla referral code?
 
-Here: https://ts.la/simon17931
+Not that it matters anymore, but here: https://ts.la/simon17931
 
 # What do you need?
 
