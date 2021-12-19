@@ -1,5 +1,22 @@
-# Example snippet for docker-compose.yml. Can be combined with pigallery2
+# Example snippet for docker-compose.yml.
 version: "3"
+
+services:
+
+## Example setup for pigallery2, pigallery2 can be accessed at port 5000 here
+#  pigallery2:
+#    image: bpatrik/pigallery2:1.9.0-alpine
+#    container_name: pigallery2
+#    environment:
+#      - NODE_ENV=production
+#    volumes:
+#      - "/var/lib/pigallery2/config:/app/data/config"
+#      - "pigallery-db-data:/app/data/db"
+#      - "/mnt/photos:/app/data/images"
+#      - "/tmp:/app/data/tmp"
+#    ports:
+#      - 5000:5000
+#    restart: always
 
   tesla-dashcam-manager:
     image: simonkagstrom/tesla_dashcam_manager
