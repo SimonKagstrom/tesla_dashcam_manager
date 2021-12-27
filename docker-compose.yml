@@ -7,6 +7,7 @@ services:
 #  pigallery2:
 #    image: bpatrik/pigallery2:1.9.0-alpine
 #    container_name: pigallery2
+#    privileged: true
 #    environment:
 #      - NODE_ENV=production
 #    volumes:
