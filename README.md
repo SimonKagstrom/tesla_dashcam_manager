@@ -20,15 +20,15 @@ Not that it matters anymore, but here: https://ts.la/simon17931
 
 # TeslaUSB instructions
 I use the rsync archive method with TeslaUSB to transfer clips to the server. See
-[doc/teslausb_setup_variables.conf](teslausb_setup_variables.conf) for my setup,
-and refer to [https://github.com/marcone/teslausb/blob/main-dev/doc/SetupRSync.md](the TeslaUSB
-rsync instructions) for information about how to setup SSH keys.
+[doc/teslausb_setup_variables.conf](./doc/teslausb_setup_variables.conf) for my setup,
+and refer to [the TeslaUSB
+rsync instructions](https://github.com/marcone/teslausb/blob/main-dev/doc/SetupRSync.md) for information about how to setup SSH keys.
 
 # Installation instructions
 This repo builds a docker image that contains ffmpeg and everything needed to run
 telsa_dashcam with GPU acceleration on a Raspberry Pi 3B+ or 4.
 
-The easiest way to use it is to copy the snippet from [./docker-compose.yml](`docker-compose.yml`) in this
+The easiest way to use it is to copy the snippet from [`docker-compose.yml`](./docker-compose.yml) in this
 repository into your own `docker-compose.yml`, where you probably already run Teslamate
 and pigallery2.
 
