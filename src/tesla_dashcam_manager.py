@@ -9,7 +9,7 @@ import time
 class TeslaDashcamManager(object):
 
     def __init__(self, staging_path, raw_storage_path, destination_path, tesla_dashcam,
-        tesla_dashcam_arguments, raw_storage_retain_days):
+        tesla_dashcam_arguments, raw_storage_retain_days, destination_storage_retain_days):
         self.staging_path = staging_path
         self.processing_path = os.path.join(staging_path, "processing")
         self.work_path = os.path.join(staging_path, "work")
@@ -17,6 +17,7 @@ class TeslaDashcamManager(object):
         self.destination_path = destination_path
         self.tesla_dashcam = tesla_dashcam
         self.raw_storage_retain_days = raw_storage_retain_days
+        self.destination_storage_retain_days = destination_storage_retain_days
 
         self.monitor_path = self.staging_path + "/ARCHIVE_UPLOADED"
 
@@ -67,26 +68,36 @@ class TeslaDashcamManager(object):
 
         return incoming
 
-    def prune_old_clips(self):
-        entries = os.listdir(self.raw_storage_path)
-
+    def prune_directory(self, path, retain_days, only_path):
         # Keep forever
-        if self.raw_storage_retain_days == 0:
+        if retain_days == 0:
             return
+
+        entries = os.listdir(path)
 
         now = time.time()
         for dir in entries:
-            cur = os.path.join(self.raw_storage_path, dir)
-            if not os.path.isdir(cur) or cur.startswith("."):
+            cur = os.path.join(path, dir)
+            if cur.startswith("."):
+                continue
+            isdir = os.path.isdir(cur)
+            if only_path and not isdir:
                 continue
             age_days = int((now - os.path.getmtime(cur)) / (60*60*24))
-            if age_days >= self.raw_storage_retain_days:
+            if age_days >= retain_days:
                 print(f"{cur} is {age_days} days old, removing")
                 try:
-                    shutil.rmtree(cur)
+                    if isdir:
+                        shutil.rmtree(cur)
+                    else:
+                        os.unlink(cur)
                 except:
                     print(f"Can't remove {cur}")
 
+
+    def prune_old_clips(self):
+        self.prune_directory(self.raw_storage_path, self.raw_storage_retain_days, only_path=True)
+        self.prune_directory(self.destination_path, self.destination_storage_retain_days, only_path=False)
 
     def process_clip(self, clip_path):
         args = ["python3", self.tesla_dashcam] + self.tesla_dashcam_arguments + \
@@ -123,13 +134,14 @@ class TeslaDashcamManager(object):
         self.move_from_work_to_destination()
 
     def run(self):
+        self.prune_old_clips()
         while True:
             self.get_and_process()
             time.sleep(2)
 
 
 def usage():
-    print(f"Usage: {__file__} <staging-path> <raw-storage-path> <destination-path> [tesla_dashcam.py-path] [tesla_dashcam-arguments] [retain-days-for-raw-storage]")
+    print(f"Usage: {__file__} <staging-path> <raw-storage-path> <destination-path> [tesla_dashcam.py-path] [tesla_dashcam-arguments] [retain-days-for-raw-storage] [retain-days-for-destination-storage")
     sys.exit(1)
 
 def verify_create_path(path):
@@ -180,6 +192,7 @@ if __name__ == "__main__":
 
     tesla_dashcam = "/usr/bin/tesla_dashcam.py"
     raw_storage_retain_days = 0
+    destination_storage_retain_days = 0
     tesla_dashcam_arguments = []
     if len(sys.argv) >= 5:
         tesla_dashcam = sys.argv[4]
@@ -187,7 +200,9 @@ if __name__ == "__main__":
         tesla_dashcam_arguments = split_args(sys.argv[5])
     if len(sys.argv) >= 7:
         raw_storage_retain_days = int(sys.argv[6])
+    if len(sys.argv) >= 8:
+        destination_storage_retain_days = int(sys.argv[7])
 
     manager = TeslaDashcamManager(staging_path, raw_storage_path, destination_path,
-        tesla_dashcam, tesla_dashcam_arguments, raw_storage_retain_days)
+        tesla_dashcam, tesla_dashcam_arguments, raw_storage_retain_days, destination_storage_retain_days)
     manager.run()
