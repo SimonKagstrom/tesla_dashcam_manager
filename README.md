@@ -11,18 +11,24 @@ be automated.
 
 Not that it matters anymore, but here: https://ts.la/simon17931
 
-# What do you need?
+# What do you need
 
 * A Raspberry Pi Zero W for telsausb
 * A Raspberry Pi 3B+/4 for the server
 * Good quality SD cards for both Raspberries
 * (Probably) an external harddisk for the server Pi
 
-# Installation instructions?
-This repo builds a docker image that contains ffmpeg and everything needed to run
-telsa_dashcam on a Raspberry Pi 3B+ or 4.
+# TeslaUSB instructions
+I use the rsync archive method with TeslaUSB to transfer clips to the server. See
+[doc/teslausb_setup_variables.conf](teslausb_setup_variables.conf) for my setup,
+and refer to [https://github.com/marcone/teslausb/blob/main-dev/doc/SetupRSync.md](the TeslaUSB
+rsync instructions) for information about how to setup SSH keys.
 
-The easiest way to use it is to copy the snippet from `docker-compose.yml` in this
+# Installation instructions
+This repo builds a docker image that contains ffmpeg and everything needed to run
+telsa_dashcam with GPU acceleration on a Raspberry Pi 3B+ or 4.
+
+The easiest way to use it is to copy the snippet from [./docker-compose.yml](`docker-compose.yml`) in this
 repository into your own `docker-compose.yml`, where you probably already run Teslamate
 and pigallery2.
 
@@ -44,6 +50,15 @@ docker-compose up -d
 ```
 
 and you should be up and running.
+
+# docker-compose.yml configuration options
+Environment variables are used to setup tesla dashcam manager,
+
+* `TZ`, the timezone to use
+* `TESLA_DASHCAM_ARGUMENTS`, arguments passed to tesla dashcam.
+* `RETAIN_DAYS`, how many days clips in the raw-storage are kept. 0 means forever
+* `DESTINATION_RETAIN_DAYS`, how many days processed clips are kept. 0 means forever
+
 # Screenshot of the web interface
 
  ![PiGallery2 screenshot](pigallery.png)
