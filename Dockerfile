@@ -1,4 +1,4 @@
-FROM balenalib/raspberry-pi-alpine:3.18
+FROM balenalib/aarch64-alpine:3.18
 
 RUN apk --no-cache upgrade
 RUN apk add --no-cache python3 py3-pip py3-pip font-freefont ffmpeg bash py3-pillow py3-psutil py3-tzlocal py3-wheel py3-dateutil

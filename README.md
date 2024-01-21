@@ -51,6 +51,10 @@ docker-compose up -d
 
 and you should be up and running.
 
+Note! `simonkagstrom/tesla_dashcam_manager:latest` is built for 64-bit mode (AARCH64),
+so make sure your Raspberry Pi is running a 64-bit OS. The last 32-bit build is
+`simonkagstrom/tesla_dashcam_manager:2`.
+
 # docker-compose.yml configuration options
 Environment variables are used to setup tesla dashcam manager,
 
