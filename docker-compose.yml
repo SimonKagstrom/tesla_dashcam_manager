@@ -20,7 +20,7 @@ services:
 #    restart: always
 
   tesla-dashcam-manager:
-    image: simonkagstrom/tesla_dashcam_manager
+    image: simonkagstrom/tesla_dashcam_manager:latest
     restart: always
     environment:
         - TZ=Europe/Stockholm
