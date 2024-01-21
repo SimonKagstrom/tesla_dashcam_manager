@@ -1,6 +1,7 @@
 # What is it?
-Helpers for integration of tesla_dashcam + teslausb + pigallery2 for Raspberry Pi via
-docker.
+Helpers for integration of [telsa_dashcam](https://github.com/ehendrix23/tesla_dashcam) +
+[teslausb](https://github.com/marcone/teslausb) + [pigallery2](https://github.com/bpatrik/pigallery2)
+for Raspberry Pi via docker.
 
 The basic idea is to setup *teslausb* to rsync files to a Raspberry Pi, use a script in
 this repository to process them via *tesla_dashcam* and then move them to a directory
@@ -26,11 +27,12 @@ rsync instructions](https://github.com/marcone/teslausb/blob/main-dev/doc/SetupR
 
 # Installation instructions
 This repo builds a docker image that contains ffmpeg and everything needed to run
-telsa_dashcam with GPU acceleration on a Raspberry Pi 3B+ or 4.
+tesla_dashcam ~~with GPU acceleration~~ on a Raspberry Pi 3B+, 4 or later.
 
 The easiest way to use it is to copy the snippet from [`docker-compose.yml`](./docker-compose.yml) in this
 repository into your own `docker-compose.yml`, where you probably already run Teslamate
-and pigallery2.
+and pigallery2. The Raspberry Pi docker images
+[can be found on dockerhub](https://hub.docker.com/repository/docker/simonkagstrom/tesla_dashcam_manager/general).
 
 On the server, create `staging`, `raw-storage` and a `destination-path` to use with
 tesla_dashcam_manager. These are
