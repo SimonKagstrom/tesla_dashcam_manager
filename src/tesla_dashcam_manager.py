@@ -203,6 +203,9 @@ if __name__ == "__main__":
     if len(sys.argv) >= 8:
         destination_storage_retain_days = int(sys.argv[7])
 
+    # Filter out --gpu, --gpu_type=xxx, which are no longer supported
+    tesla_dashcam_arguments = [x for x in tesla_dashcam_arguments if not x.startswith("--gpu")]
+
     manager = TeslaDashcamManager(staging_path, raw_storage_path, destination_path,
         tesla_dashcam, tesla_dashcam_arguments, raw_storage_retain_days, destination_storage_retain_days)
     manager.run()
