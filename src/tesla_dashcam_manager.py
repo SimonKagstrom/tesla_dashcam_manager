@@ -38,11 +38,13 @@ class TeslaDashcamManager(object):
             for dirpath, dirnames, _ in os.walk(self.staging_path):
                 for dir in dirnames:
                     path = os.path.join(dirpath, dir)
-                    if path == self.processing_path:
+                    if path == self.processing_path or path == self.work_path:
                         continue
 
                     files = os.listdir(path)
-                    if "event.json" in files:
+
+                    # If at least one file ends with .mp4, append to incoming
+                    if any(f.endswith(".mp4") for f in files):
                         incoming.append(path)
 
             for path in incoming:
@@ -62,9 +64,7 @@ class TeslaDashcamManager(object):
             for dir in dirnames:
                 path = os.path.join(dirpath, dir)
 
-                files = os.listdir(path)
-                if "event.json" in files:
-                    incoming.append(path)
+                incoming.append(path)
 
         return incoming
 
