@@ -27,6 +27,7 @@ services:
         - TESLA_DASHCAM_ARGUMENTS=--title_screen_map --text_overlay_fmt "{event_timestamp} {event_city}"
         - RETAIN_DAYS=365
         - DESTINATION_RETAIN_DAYS=0
+        - PYTHONUNBUFFERED=1
     devices:
         - "/dev/vchiq:/dev/vchiq"
     volumes:

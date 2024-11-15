@@ -124,12 +124,17 @@ class TeslaDashcamManager(object):
 
     def get_and_process(self):
         clips = self.get_clips_from_staging()
+        clip_count = 0
         if len(clips) != 0:
             print(f"Processing {len(clips)} clips")
         for clip in clips:
+            clip_count += 1
+            print(f"Processing clip {clip_count} of {len(clips)}")
             self.prune_old_clips()
             self.process_clip(clip)
             self.move_to_raw_storage(clip)
+        if len(clips) != 0:
+            print(f"Processed {len(clips)} clips")
 
         self.move_from_work_to_destination()
 
@@ -208,4 +213,6 @@ if __name__ == "__main__":
 
     manager = TeslaDashcamManager(staging_path, raw_storage_path, destination_path,
         tesla_dashcam, tesla_dashcam_arguments, raw_storage_retain_days, destination_storage_retain_days)
+
+    print("Waiting for trigger...")
     manager.run()
